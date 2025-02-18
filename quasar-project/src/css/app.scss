@@ -1,1 +1,13 @@
 // app global css in SCSS form
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Custom styles
+.q-drawer {
+    background-color: theme('colors.sidebar') !important;
+}
+
+.q-item.q-router-link--active {
+    background-color: theme('colors.primary') !important;
+}
