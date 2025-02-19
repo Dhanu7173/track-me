@@ -1,0 +1,150 @@
+country: India
+data_month_from: '202101'
+data_month_to: ''
+description: 'Workflow configuration based on category'
+folder: ADJUSTMENTS
+hash_code: 5074e06d213bb1cdcc4d71fc0a6622fb
+id: WORKFLOW
+last_edited_by: dhanaji.shelke
+module: Vender
+name: Sales Adjustment Configuration
+pattern: dm_workflow_WORKFLOW
+roles:
+  - SALES
+  - MANAGER
+  - ADMIN
+steps: []
+time_versioning_type: ongoing
+
+categories:
+  - name: Individual
+    fields:
+      - editType: plain_text
+        editable_in_prestate: true
+        label: MONTH
+        length: 100
+        precision: 0
+        type: VARCHAR
+        viewable_in_prestate: true
+        viewable_in_states:
+          - SUBMITTED
+          - APPROVED
+          - APPROVED_BY_MANAGER
+          - APPROVED_BY_ADMIN
+      - editType: plain_text
+        editable_in_prestate: true
+        label: REP ID
+        length: 100
+        precision: 0
+        type: VARCHAR
+        viewable_in_prestate: true
+        viewable_in_states:
+          - SUBMITTED
+          - APPROVED
+          - APPROVED_BY_MANAGER
+          - APPROVED_BY_ADMIN
+      - editType: plain_text
+        editable_in_prestate: true
+        label: REP NAME
+        length: 100
+        precision: 0
+        type: VARCHAR
+        viewable_in_prestate: true
+        viewable_in_states:
+          - SUBMITTED
+          - APPROVED
+          - APPROVED_BY_MANAGER
+          - APPROVED_BY_ADMIN
+
+  - name: Company
+    fields:
+      - editType: plain_text
+        editable_in_prestate: true
+        label: COMPANY_NAME
+        length: 200
+        precision: 0
+        type: VARCHAR
+        viewable_in_prestate: true
+        viewable_in_states:
+          - SUBMITTED
+          - APPROVED
+          - APPROVED_BY_MANAGER
+          - APPROVED_BY_ADMIN
+      - editType: plain_text
+        editable_in_prestate: true
+        label: COMPANY ID
+        length: 100
+        precision: 0
+        type: VARCHAR
+        viewable_in_prestate: true
+        viewable_in_states:
+          - SUBMITTED
+          - APPROVED
+          - APPROVED_BY_MANAGER
+          - APPROVED_BY_ADMIN
+      - editType: plain_text
+        editable_in_prestate: true
+        label: INDUSTRY
+        length: 100
+        precision: 0
+        type: VARCHAR
+        viewable_in_prestate: true
+        viewable_in_states:
+          - SUBMITTED
+          - APPROVED
+          - APPROVED_BY_MANAGER
+          - APPROVED_BY_ADMIN
+  - name: Both
+    fields:
+      - editType: plain_text
+        label: SALES
+        type: DECIMAL
+        length: 20
+        precision: 2
+
+      - editType: plain_text
+        label: COMMENT
+        type: TEXTAREA
+        length: 500
+
+      - editType: date
+        label: TRANSACTION_DATE
+        type: DATE
+
+      - editType: dropdown
+        label: PAYMENT_METHOD
+        type: ENUM
+        field_dropdowns: ["Credit Card", "Debit Card", "PayPal", "Bank Transfer"]
+
+      - editType: radio
+        label: GENDER
+        type: RADIO
+        field_dropdowns: ["Male", "Female", "Other"]
+
+      - editType: email
+        label: CONTACT_EMAIL
+        type: EMAIL
+
+      - editType: phone
+        label: CONTACT_PHONE
+        type: PHONE
+
+      - editType: password
+        label: SECURE_PASSWORD
+        type: PASSWORD
+
+      - editType: file
+        label: UPLOAD_DOCUMENT
+        type: FILE
+
+      - editType: image
+        label: PROFILE_PICTURE
+        type: IMAGE
+
+      - editType: time
+        label: MEETING_TIME
+        type: TIME
+
+      - editType: datetime
+        label: APPOINTMENT_DATETIME
+        type: DATETIME
