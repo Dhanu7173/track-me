@@ -1,23 +1,23 @@
 <template>
-  <div class="space-y-6">
+  <div class="tw-space-y-6">
     <!-- Welcome Banner -->
     <WelcomeBanner />
 
     <!-- Project Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-6">
       <ProjectCard v-for="project in projects" :key="project.id" :project="project" />
     </div>
 
     <!-- Overall Projects Stats -->
-    <div class="bg-white rounded-lg p-6 shadow-2xl">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-semibold">Overall Projects Stats</h3>
+    <div class="tw-bg-white tw-rounded-lg tw-p-6 tw-shadow-2xl">
+      <div class="tw-flex tw-justify-between tw-items-center tw-mb-4">
+        <h3 class="tw-text-lg tw-font-semibold">Overall Projects Stats</h3>
         <q-select
           v-model="timeRange"
           :options="['Last 7 Days', 'Last 30 Days', 'Last 3 Months']"
           dense
           outlined
-          class="w-40"
+          class="tw-w-40"
         />
       </div>
       <StatsChart />

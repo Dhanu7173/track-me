@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full">
+  <div class="tw-w-full tw-h-full">
     <apexchart
       width="100%"
       type="bar"

@@ -4,6 +4,9 @@
 @tailwind utilities;
 
 // Custom styles
+.q-card{
+    border-radius: 20px !important;
+}
 .q-drawer {
     background-color: theme('colors.sidebar') !important;
 }

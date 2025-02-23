@@ -1,13 +1,13 @@
 <template>
-  <div class="space-y-6">
+  <div class="tw-space-y-6">
     <!-- Page Header -->
-    <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-bold">Projects</h2>
+    <div class="tw-flex tw-justify-between tw-items-center">
+      <h2 class="tw-text-2xl tw-font-bold">Projects</h2>
       <q-btn color="primary" icon="add" label="New Project" @click="openNewProjectDialog(false)" />
     </div>
 
     <!-- Projects Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-6">
       <ProjectCard 
         v-for="project in projects" 
         :key="project.id" 
@@ -19,46 +19,46 @@
 
     <!-- New/Edit Project Dialog -->
     <q-dialog v-model="projectDialog">
-      <q-card class="w-full max-w-xl bg-white rounded-lg shadow-lg p-6">
-        <q-card-section class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-xl font-semibold text-gray-800">
+      <q-card class="tw-w-full tw-max-w-xl tw-bg-white tw-rounded-2xl tw-shadow-lg tw-p-6">
+        <q-card-section class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3">
+          <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">
             {{ editMode ? 'Edit Project' : 'New Project' }}
           </h3>
-          <q-btn flat dense icon="close" class="text-gray-500" @click="projectDialog = false" />
+          <q-btn flat dense icon="close" class="tw-text-gray-500" @click="projectDialog = false" />
         </q-card-section>
 
-        <q-card-section class="space-y-4">
-          <q-input v-model="newProject.title" label="Project Title" outlined dense class="w-full" />
-          <q-input v-model="newProject.description" label="Description" outlined dense class="w-full" />
-          <q-select v-model="newProject.type" :options="['Ongoing Project', 'Completed Project']" label="Type" outlined dense class="w-full" />
-          <q-input v-model="newProject.progress" type="number" label="Progress (%)" outlined dense class="w-full" />
-          <q-select v-model="newProject.status" :options="['In Progress', 'Completed', 'On Hold', 'Pending']" label="Status" outlined dense class="w-full" />
-          <q-input v-model="newProject.startDate" type="date" label="Start Date" outlined dense class="w-full" />
-          <q-input v-model="newProject.endDate" type="date" label="End Date" outlined dense class="w-full" />
-          <q-input v-model="newProject.dueDate" type="date" label="Due Date" outlined dense class="w-full" />
+        <q-card-section class="tw-space-y-4">
+          <q-input v-model="newProject.title" label="Project Title" outlined dense class="tw-w-full" />
+          <q-input v-model="newProject.description" label="Description" outlined dense class="tw-w-full" />
+          <q-select v-model="newProject.type" :options="['Ongoing Project', 'Completed Project']" label="Type" outlined dense class="tw-w-full" />
+          <q-input v-model="newProject.progress" type="number" label="Progress (%)" outlined dense class="tw-w-full" />
+          <q-select v-model="newProject.status" :options="['In Progress', 'Completed', 'On Hold', 'Pending']" label="Status" outlined dense class="tw-w-full" />
+          <q-input v-model="newProject.startDate" type="date" label="Start Date" outlined dense class="tw-w-full" />
+          <q-input v-model="newProject.endDate" type="date" label="End Date" outlined dense class="tw-w-full" />
+          <q-input v-model="newProject.dueDate" type="date" label="Due Date" outlined dense class="tw-w-full" />
 
           <!-- Team Members -->
-          <div class="border-t pt-4">
-            <h4 class="text-lg font-semibold">Team Members</h4>
-            <div v-for="(member, index) in newProject.team" :key="index" class="flex gap-2 items-center">
+          <div class="tw-border-t tw-pt-4">
+            <h4 class="tw-text-lg tw-font-semibold">Team Members</h4>
+            <div v-for="(member, index) in newProject.team" :key="index" class="tw-flex tw-gap-2 tw-items-center">
               <q-avatar size="32px">
                 <img :src="member.avatar" alt="Team Member" />
               </q-avatar>
-              <q-input v-model="member.name" label="Member Name" outlined dense class="flex-grow mt-1" />
+              <q-input v-model="member.name" label="Member Name" outlined dense class="tw-flex-grow tw-mt-1" />
               <q-btn icon="delete" flat color="red" @click="removeTeamMember(index)" />
             </div>
-            <q-btn label="Add Team Member" class="mt-2" outline color="primary" @click="addTeamMember" />
+            <q-btn label="Add Team Member" class="tw-mt-2" outline color="primary" @click="addTeamMember" />
           </div>
 
           <!-- Tasks -->
-          <div class="border-t pt-4">
-            <h4 class="text-lg font-semibold">Tasks</h4>
-            <div v-for="(task, index) in newProject.tasks" :key="index" class="flex gap-2 items-center">
-              <q-input v-model="task.name" label="Task Name" outlined dense class="flex-grow mt-1" />
-              <q-select v-model="task.status" :options="['Pending', 'In Progress', 'Completed']" label="Status" outlined dense class="w-40" />
+          <div class="tw-border-t tw-pt-4">
+            <h4 class="tw-text-lg tw-font-semibold">Tasks</h4>
+            <div v-for="(task, index) in newProject.tasks" :key="index" class="tw-flex tw-gap-2 tw-items-center">
+              <q-input v-model="task.name" label="Task Name" outlined dense class="tw-flex-grow tw-mt-1" />
+              <q-select v-model="task.status" :options="['Pending', 'In Progress', 'Completed']" label="Status" outlined dense class="tw-w-40" />
               <q-btn icon="delete" flat color="red" @click="removeTask(index)" />
             </div>
-            <q-btn label="Add Task" class="mt-2" outline color="primary" @click="addTask" />
+            <q-btn label="Add Task" class="tw-mt-2" outline color="primary" @click="addTask" />
           </div>
         </q-card-section>
 
@@ -135,20 +135,6 @@ export default defineComponent({
       projectDialog.value = true
     }
 
-    // Save or Update Project
-    const saveProject = () => {
-      if (!newProject.value.title.trim()) return
-      if (editMode.value) {
-        const index = projects.value.findIndex(p => p.id === newProject.value.id)
-        if (index !== -1) {
-          projects.value[index] = { ...newProject.value }
-        }
-      } else {
-        projects.value.push({ ...newProject.value, id: Date.now() })
-      }
-      projectDialog.value = false
-    }
-
     // Delete Project
     const deleteProject = (id: number) => {
       projects.value = projects.value.filter(p => p.id !== id)
@@ -181,13 +167,49 @@ export default defineComponent({
       editMode,
       newProject,
       openNewProjectDialog,
-      saveProject,
       deleteProject,
       addTeamMember,
       removeTeamMember,
       addTask,
       removeTask,
     }
+  },
+  methods: {
+    async saveProject() {
+      if (!this.newProject.title.trim()) return;
+
+      const projectData = {
+        title: this.newProject.title,
+        description: this.newProject.description,
+        type: this.newProject.type,
+        progress: this.newProject.progress,
+        status: this.newProject.status,
+        startDate: this.newProject.startDate,
+        endDate: this.newProject.endDate,
+        dueDate: this.newProject.dueDate,
+        team: this.newProject.team,  // Send team members as an array
+        tasks: this.newProject.tasks // Send tasks as an array
+      };
+
+      try {
+        const response = await this.$api.post("/users/projects", projectData);
+        
+        this.$q.notify({
+          type: "positive",
+          message: "Project added successfully!",
+        });
+
+        // Update UI with new project
+        this.projects.push({ ...projectData, id: response.data.project_id });
+
+        this.projectDialog = false;
+      } catch (error) {
+        this.$q.notify({
+          type: "negative",
+          message: error.response?.data?.error || "Failed to add project",
+        });
+      }
+    },
   },
 })
 </script>

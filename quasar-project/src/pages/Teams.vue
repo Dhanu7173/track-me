@@ -1,22 +1,22 @@
 <template>
-  <div class="space-y-6">
+  <div class="tw-space-y-6">
     <!-- Page Header -->
-    <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-bold">Teams</h2>
+    <div class="tw-flex tw-justify-between tw-items-center">
+      <h2 class="tw-text-2xl tw-font-bold">Teams</h2>
       <q-btn color="primary" icon="group_add" label="Create Team" @click="openCreateTeam(false)" />
     </div>
 
     <!-- Teams Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 lg:tw-grid-cols-3 tw-gap-6">
       <div
         v-for="team in teams"
         :key="team.id"
-        class="bg-white rounded-lg shadow-sm p-6"
+        class="tw-bg-white tw-rounded-lg tw-shadow-sm tw-p-6"
       >
-        <div class="flex justify-between items-start mb-4">
+        <div class="tw-flex tw-justify-between tw-items-start tw-mb-4">
           <div>
-            <h3 class="text-lg font-semibold">{{ team.name }}</h3>
-            <p class="text-gray-500">{{ team.description }}</p>
+            <h3 class="tw-text-lg tw-font-semibold">{{ team.name }}</h3>
+            <p class="tw-text-gray-500">{{ team.description }}</p>
           </div>
           <q-btn-dropdown flat dense round>
             <q-list>
@@ -31,16 +31,16 @@
         </div>
 
         <!-- Team Members -->
-        <div class="flex items-center gap-2 mb-4">
+        <div class="tw-flex tw-items-center tw-gap-2 tw-mb-4">
           <q-avatar v-for="member in team.members.slice(0, 3)" :key="member.id" size="32px">
             <img :src="member.avatar" />
           </q-avatar>
-          <q-chip v-if="team.members.length > 3" size="sm" class="bg-gray-100">
+          <q-chip v-if="team.members.length > 3" size="sm" class="tw-bg-gray-100">
             +{{ team.members.length - 3 }}
           </q-chip>
         </div>
 
-        <div class="flex justify-between text-sm text-gray-500">
+        <div class="tw-flex tw-justify-between tw-text-sm tw-text-gray-500">
           <span>{{ team.projects }} Projects</span>
           <span>{{ team.tasks }} Tasks</span>
         </div>
@@ -49,31 +49,31 @@
 
     <!-- Create/Edit Team Dialog -->
     <q-dialog v-model="teamDialog">
-      <q-card class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
-        <q-card-section class="flex justify-between items-center border-b pb-3">
-          <h3 class="text-xl font-semibold text-gray-800">
+      <q-card class="tw-w-full tw-max-w-lg tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-6">
+        <q-card-section class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3">
+          <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">
             {{ editMode ? 'Edit Team' : 'Create Team' }}
           </h3>
-          <q-btn flat dense icon="close" class="text-gray-500" @click="teamDialog = false" />
+          <q-btn flat dense icon="close" class="tw-text-gray-500" @click="teamDialog = false" />
         </q-card-section>
 
-        <q-card-section class="space-y-4">
-          <q-input v-model="newTeam.name" label="Team Name" outlined dense class="w-full" />
-          <q-input v-model="newTeam.description" label="Description" outlined dense class="w-full" />
-          <q-input v-model="newTeam.projects" type="number" label="Projects" outlined dense class="w-full" />
-          <q-input v-model="newTeam.tasks" type="number" label="Tasks" outlined dense class="w-full" />
+        <q-card-section class="tw-space-y-4">
+          <q-input v-model="newTeam.name" label="Team Name" outlined dense class="tw-w-full" />
+          <q-input v-model="newTeam.description" label="Description" outlined dense class="tw-w-full" />
+          <q-input v-model="newTeam.projects" type="number" label="Projects" outlined dense class="tw-w-full" />
+          <q-input v-model="newTeam.tasks" type="number" label="Tasks" outlined dense class="tw-w-full" />
 
           <!-- Team Members -->
-          <div class="border-t pt-4">
-            <h4 class="text-lg font-semibold">Team Members</h4>
-            <div v-for="(member, index) in newTeam.members" :key="index" class="flex gap-2 items-center">
+          <div class="tw-border-t tw-pt-4">
+            <h4 class="tw-text-lg tw-font-semibold">Team Members</h4>
+            <div v-for="(member, index) in newTeam.members" :key="index" class="tw-flex tw-gap-2 tw-items-center">
               <q-avatar size="32px">
                 <img :src="member.avatar" alt="Team Member" />
               </q-avatar>
-              <q-input v-model="member.name" label="Member Name" outlined dense class="flex-grow mt-1" />
+              <q-input v-model="member.name" label="Member Name" outlined dense class="tw-flex-grow tw-mt-1" />
               <q-btn icon="delete" flat color="red" @click="removeTeamMember(index)" />
             </div>
-            <q-btn label="Add Team Member" class="mt-2" outline color="primary" @click="addTeamMember" />
+            <q-btn label="Add Team Member" class="tw-mt-2" outline color="primary" @click="addTeamMember" />
           </div>
         </q-card-section>
 

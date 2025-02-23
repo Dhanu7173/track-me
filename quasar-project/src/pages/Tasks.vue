@@ -1,29 +1,30 @@
 <template>
-  <div class="space-y-6">
+  <div class="tw-space-y-6">
     <!-- Header -->
-    <div class="flex justify-between items-center">
-      <h2 class="text-2xl font-bold">My Tasks</h2>
-      <div class="flex gap-4">
+    <div class="tw-flex tw-justify-between tw-items-center">
+      <h2 class="tw-text-2xl tw-font-bold">My Tasks</h2>
+      <div class="tw-flex tw-gap-4">
         <q-select
           v-model="filterStatus"
           :options="statusOptions"
           label="Status"
           outlined
           dense
-          class="w-40"
+          class="tw-w-40"
         />
         <q-btn color="primary" icon="add" label="New Task" @click="openNewTaskDialog" />
       </div>
     </div>
 
     <!-- Task Table -->
-    <div class="bg-white rounded-lg shadow-sm">
+    <div class="tw-bg-white tw-border tw-border-gray-200 ">
       <q-table
         :rows="filteredTasks"
         :columns="columns"
         row-key="id"
         flat
         :pagination="{ rowsPerPage: 10 }"
+        class="tw-w-full tw-rounded-2xl"
       >
         <!-- Status Column -->
         <template v-slot:body-cell-status="props">
@@ -46,7 +47,7 @@
         <!-- Actions Column -->
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
-            <div class="flex gap-2">
+            <div class="tw-flex tw-gap-2">
               <q-btn flat round size="sm" color="primary" icon="edit" @click="editTask(props.row)" />
               <q-btn flat round size="sm" color="negative" icon="delete" @click="deleteTask(props.row.id)" />
             </div>
@@ -57,32 +58,32 @@
 
     <!-- Add/Edit Task Dialog -->
     <q-dialog v-model="taskDialog">
-    <q-card class="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+    <q-card class="tw-w-full tw-max-w-md tw-bg-white tw-rounded-lg tw-shadow-lg tw-p-6">
         <!-- Dialog Header -->
-        <q-card-section class="flex justify-between items-center border-b pb-3">
-        <h3 class="text-xl font-semibold text-gray-800">
+        <q-card-section class="tw-flex tw-justify-between tw-items-center tw-border-b tw-pb-3">
+        <h3 class="tw-text-xl tw-font-semibold tw-text-gray-800">
             {{ editMode ? "Edit Task" : "New Task" }}
         </h3>
-        <q-btn flat dense icon="close" class="text-gray-500" @click="taskDialog = false" />
+        <q-btn flat dense icon="close" class="tw-text-gray-500" @click="taskDialog = false" />
         </q-card-section>
 
         <!-- Form Fields -->
-        <q-card-section class="space-y-4">
-        <q-input v-model="taskForm.title" label="Task Title" outlined dense class="w-full" />
-        <q-input v-model="taskForm.project" label="Project" outlined dense class="w-full" />
+        <q-card-section class="tw-space-y-4">
+        <q-input v-model="taskForm.title" label="Task Title" outlined dense class="tw-w-full" />
+        <q-input v-model="taskForm.project" label="Project" outlined dense class="tw-w-full" />
         
-        <div class="grid grid-cols-2 gap-4">
-            <q-select v-model="taskForm.status" :options="statusOptions" label="Status" outlined dense class="w-full" />
-            <q-select v-model="taskForm.priority" :options="priorityOptions" label="Priority" outlined dense class="w-full" />
+        <div class="tw-grid tw-grid-cols-2 tw-gap-4">
+            <q-select v-model="taskForm.status" :options="statusOptions" label="Status" outlined dense class="tw-w-full" />
+            <q-select v-model="taskForm.priority" :options="priorityOptions" label="Priority" outlined dense class="tw-w-full" />
         </div>
         
-        <q-input v-model="taskForm.dueDate" label="Due Date" outlined dense type="date" class="w-full" />
+        <q-input v-model="taskForm.dueDate" label="Due Date" outlined dense type="date" class="tw-w-full" />
         </q-card-section>
 
         <!-- Actions -->
-        <q-card-actions align="right" class="border-t pt-3">
-        <q-btn flat label="Cancel" class="text-gray-600" @click="taskDialog = false" />
-        <q-btn color="primary" class="px-4 py-2 rounded-md shadow-md" :label="editMode ? 'Update' : 'Add'" @click="saveTask" />
+        <q-card-actions align="right" class="tw-border-t tw-pt-3">
+        <q-btn flat label="Cancel" class="tw-text-gray-600" @click="taskDialog = false" />
+        <q-btn color="primary" class="tw-px-4 tw-py-2 tw-rounded-md tw-shadow-md" :label="editMode ? 'Update' : 'Add'" @click="saveTask" />
         </q-card-actions>
     </q-card>
     </q-dialog>

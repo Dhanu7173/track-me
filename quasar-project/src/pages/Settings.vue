@@ -1,12 +1,12 @@
 <template>
-  <div class="space-y-6">
-    <h2 class="text-2xl font-bold">Settings</h2>
+  <div class="tw-space-y-6">
+    <h2 class="tw-text-2xl tw-font-bold">Settings</h2>
 
-    <div class="bg-white rounded-lg shadow-sm">
-      <div class="p-6 border-b">
-        <h3 class="text-lg font-semibold mb-4">Profile Settings</h3>
+    <div class="tw-bg-white tw-rounded-lg tw-shadow-sm">
+      <div class="tw-p-6 tw-border-b">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Profile Settings</h3>
         
-        <div class="flex items-center gap-6">
+        <div class="tw-flex tw-items-center tw-gap-6">
           <q-avatar size="100px">
             <img :src="profile.avatar" />
             <q-btn
@@ -14,12 +14,12 @@
               color="primary"
               icon="edit"
               size="sm"
-              class="absolute bottom-0 right-0"
+              class="tw-absolute tw-bottom-0 tw-right-0"
               @click="uploadAvatar"
             />
           </q-avatar>
 
-          <div class="flex-1 grid grid-cols-2 gap-4">
+          <div class="tw-flex-1 tw-grid tw-grid-cols-2 tw-gap-4">
             <q-input
               v-model="profile.firstName"
               label="First Name"
@@ -49,18 +49,18 @@
         </div>
       </div>
 
-      <div class="p-6 border-b">
-        <h3 class="text-lg font-semibold mb-4">Notifications</h3>
+      <div class="tw-p-6 tw-border-b">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Notifications</h3>
         
-        <div class="space-y-4">
+        <div class="tw-space-y-4">
           <div
             v-for="(setting, index) in notificationSettings"
             :key="index"
-            class="flex items-center justify-between"
+            class="tw-flex tw-items-center tw-justify-between"
           >
             <div>
-              <div class="font-medium">{{ setting.title }}</div>
-              <div class="text-sm text-gray-500">
+              <div class="tw-font-medium">{{ setting.title }}</div>
+              <div class="tw-text-sm tw-text-gray-500">
                 {{ setting.description }}
               </div>
             </div>
@@ -69,10 +69,10 @@
         </div>
       </div>
 
-      <div class="p-6 border-b">
-        <h3 class="text-lg font-semibold mb-4">Theme</h3>
+      <div class="tw-p-6 tw-border-b">
+        <h3 class="tw-text-lg tw-font-semibold tw-mb-4">Theme</h3>
         
-        <div class="flex items-center gap-4">
+        <div class="tw-flex tw-items-center tw-gap-4">
           <q-btn
             v-for="theme in themes"
             :key="theme.name"
@@ -85,7 +85,7 @@
         </div>
       </div>
 
-      <div class="p-6 flex justify-end gap-4">
+      <div class="tw-p-6 tw-flex tw-justify-end tw-gap-4">
         <q-btn flat label="Cancel" color="grey" />
         <q-btn
           color="primary"

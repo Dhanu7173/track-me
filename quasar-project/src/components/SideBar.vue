@@ -3,13 +3,13 @@
     v-model="leftDrawerOpen"
     show-if-above
     :width="260"
-    class="bg-sidebar text-white rounded-r-lg shadow-lg"
+    class="tw-bg-sidebar tw-text-white tw-rounded-r-lg tw-shadow-lg"
   >
-    <div class="p-4">
+    <div class="tw-p-4">
       <!-- Logo Section -->
-      <div class="flex items-center gap-3 mb-8">
-        <img src="~/assets/logo1.png" alt="Tasker" class="h-12 rounded-md shadow-sm" />
-        <!-- <span class="text-xl font-bold tracking-wide text-white">Track Me</span> -->
+      <div class="tw-flex tw-items-center tw-gap-3 tw-mb-8">
+        <img src="~/assets/logo1.png" alt="Tasker" class="tw-h-12 tw-rounded-md tw-shadow-sm" />
+        <!-- <span class="tw-text-xl tw-font-bold tw-tracking-wide tw-text-white">Track Me</span> -->
       </div>
 
       <!-- Menu List -->
@@ -20,13 +20,13 @@
           :to="item.route"
           clickable
           v-ripple
-          class="menu-item mt-2"
-          :class="{ 'bg-primary text-white rounded-lg shadow-md': isActive(item.route) }"
+          class="menu-item tw-mt-2"
+          :class="{ 'tw-bg-primary tw-text-white tw-rounded-lg tw-shadow-md': isActive(item.route) }"
         >
           <q-item-section avatar>
-            <Icon :icon="item.icon" class="text-lg" />
+            <Icon :icon="item.icon" class="tw-text-lg tw-text-white" />
           </q-item-section>
-          <q-item-section>
+          <q-item-section class="tw-text-white">
             {{ item.label }}
           </q-item-section>
         </q-item>
@@ -59,7 +59,7 @@ const isActive = (path: string) => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* Sidebar Background */
 .bg-sidebar {
   background: linear-gradient(135deg, #1e293b 0%, #111827 100%);
@@ -68,7 +68,7 @@ const isActive = (path: string) => {
 
 /* Menu Item Hover & Active Effects */
 .menu-item {
-  transition: all 0.3s ease-in-out;
+  transition: all 0.3s tw-ease-in-out;
   padding: 10px 15px;
   border-radius: 8px;
 }

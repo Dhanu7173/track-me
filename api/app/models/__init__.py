@@ -30,6 +30,9 @@ class AppModel(db.Model):
 
 
 from .user import Users
-from .company import Company
-from .contact import ContactDetails
-from .bank import BankDetails
+from .projects import Projects
+from .tasks import Tasks
+from .files import FileAttachments
+from .comments import ProjectComments
+from .taskcomments import TaskComments
+from .team import ProjectMembers

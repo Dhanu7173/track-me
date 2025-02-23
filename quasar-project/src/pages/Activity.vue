@@ -1,9 +1,9 @@
 <template>
-  <div class="space-y-6">
-    <h2 class="text-2xl font-bold">Activity</h2>
+  <div class="tw-space-y-6">
+    <h2 class="tw-text-2xl tw-font-bold">Activity</h2>
 
-    <div class="bg-white rounded-lg shadow-sm p-6">
-      <div class="flex gap-4 mb-6">
+    <div class="tw-bg-white tw-rounded-lg tw-shadow-sm tw-p-6">
+      <div class="tw-flex tw-gap-4 tw-mb-6">
         <q-btn
           v-for="filter in filters"
           :key="filter"
@@ -12,7 +12,7 @@
           :text-color="activeFilter === filter ? 'blue' : 'black'"
           @click="activeFilter = filter"
           flat
-          rounded
+          tw-rounded
         />
       </div>
 
@@ -24,12 +24,12 @@
           :subtitle="activity.time"
           :icon="activity.icon"
         >
-          <div class="text-gray-600">{{ activity.description }}</div>
+          <div class="tw-text-gray-600">{{ activity.description }}</div>
           
-          <div v-if="activity.project" class="mt-2">
+          <div v-if="activity.project" class="tw-mt-2">
             <q-chip
               size="sm"
-              class="bg-blue-50 text-blue-600"
+              class="tw-bg-blue-50 tw-text-blue-600"
             >
               {{ activity.project }}
             </q-chip>

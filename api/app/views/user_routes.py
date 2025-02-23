@@ -1,15 +1,21 @@
 from datetime import datetime
 import random
 
+import requests
 import yaml
 from flask import Blueprint, request, jsonify, session
 from ..models.user import Users
+from ..models.projects import Projects
 from ..extensions import db, mail, redis_client
 from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token
 from flask_mail import Message
 from twilio.rest import Client
+from datetime import datetime
+
+from sqlalchemy import desc
+
 from ..config import Config
 import json
 from ..utils.auth import store_session
@@ -22,12 +28,15 @@ def get_admin_user():
 	if 'user' in session:
 		user = Users.query.filter_by(email=session['user']['email']).first()
 		user_data = {
+            "token": session['token'],
 			"is_logged_in": True,
 			"user": {
 				"id": user.id,
 				"username": user.username,
 				"email": user.email,
-				"phone": user.phone
+				"phone": user.phone,
+				"stage": user.current_stage,
+                "kyc_status": user.kyc_status
 			}
 		}
 		return jsonify(ok=True, user_data=user_data)
@@ -74,49 +83,66 @@ def send_sms_otp(phone, otp):
 
 @user_bp.route('/send-email-otp', methods=['POST'])
 def send_email_otp_route():
-	data = request.get_json()
-	email_otp = generate_otp()
-	redis_client.setex(f"otp_email_{data['email']}", 300, email_otp)  # Expire in 5 min
-	send_email_otp(data['email'], email_otp)
-	return jsonify(ok=True,message="Email OTP sent successfully")
+    data = request.json
+
+    if not data or 'email' not in data:
+        return jsonify({"error": "Email is required"}), 400
+
+    email = data['email']
+
+    if not email:
+        return jsonify({"error": "Please fill in the Email"}), 400
+
+    email_otp = generate_otp()
+    redis_client.setex(f"otp_email_{email}", 300, email_otp)  # Expire in 5 min
+    send_email_otp(email, email_otp)
+    return jsonify(ok=True,message="Email OTP sent successfully")
 
 
 @user_bp.route('/verify-email-otp', methods=['POST'])
 def verify_email_otp():
-	data = request.get_json()
+	data = request.json
 	stored_otp = redis_client.get(f"otp_email_{data['email']}")
 	# stored_otp = "111111"
 	if stored_otp and stored_otp == data['otp']:
 		redis_client.delete(f"otp_email_{data['email']}")
-		return jsonify(ok=True,message = "Email verified successfully")
+		return jsonify(ok=True, message="OTP verified successfully.")
 	else:
-		return jsonify(ok=False,error = "Invalid or expired OTP")
+		return jsonify(ok=False, error="Invalid OTP.")
 
 
 @user_bp.route('/send-phone-otp', methods=['POST'])
 def send_phone_otp_route():
-	data = request.get_json()
-	phone_otp = generate_otp()
-	redis_client.setex(f"otp_phone_{data['phone']}", 300, phone_otp)  # Expire in 5 min
-	send_sms_otp(data['phone'], phone_otp)
-	return jsonify(ok=True,message = "Phone OTP sent successfully")
+    data = request.json
+
+    if not data or 'phone' not in data:
+        return jsonify({"error": "Phone number is required"}), 400
+
+    phone = data['phone']
+    if not phone:
+        return jsonify({"error": "Phone number cannot be empty"}), 400
+
+    phone_otp = generate_otp()
+    redis_client.setex(f"otp_phone_{phone}", 300, phone_otp)
+    send_sms_otp(phone, phone_otp)
+    return jsonify(ok=True,message="Phone OTP sent successfully")
 
 
 @user_bp.route('/verify-phone-otp', methods=['POST'])
 def verify_phone_otp():
-	data = request.get_json()
+	data = request.json
 	stored_otp = redis_client.get(f"otp_phone_{data['phone']}")
 	# stored_otp = "111111"
 	if stored_otp and stored_otp == data['otp']:
 		redis_client.delete(f"otp_phone_{data['phone']}")
-		return jsonify(ok=True,message="Phone verified successfully")
+		return jsonify(ok=True, message="OTP verified successfully.")
 	else:
-		return jsonify(ok=False,error = "Invalid or expired OTP")
+		return jsonify(ok=False, error="Invalid OTP.")
 
 
 @user_bp.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
+    data = request.json
     email = data.get('email')
     password = data.get('password')
 
@@ -142,7 +168,9 @@ def login():
             "id": user.id,
             "username": user.username,
             "email": user.email,
-            "phone": user.phone
+            "phone": user.phone,
+            "stage": user.current_stage,
+            "kyc_status": user.kyc_status
         }
     }
     store_session(user_data)
@@ -153,7 +181,7 @@ def login():
 # ✅ REGISTER API (Updated Response Format)
 @user_bp.route('/register', methods=['POST'])
 def register_user():
-	data = request.get_json()
+	data = request.json
 
 	# Ensure email and phone are verified before registration
 	if not data.get('emailVerified') or not data.get('phoneVerified'):
@@ -169,6 +197,9 @@ def register_user():
 		password=hashed_password,
 		is_email_verified=True,
 		is_phone_verified=True,
+        kyc_status="Pending",
+        role="dealer",
+        current_stage="businessDetails",
 		created_at=datetime.utcnow(),
 		last_login=datetime.utcnow(),
 		updated_at=datetime.utcnow()
@@ -181,7 +212,10 @@ def register_user():
 		"user": {
 			"id": new_user.id,
 			"username": new_user.username,
-			"email": new_user.email
+			"email": new_user.email,
+            "phone": new_user.phone,
+            "stage": new_user.current_stage,
+            "kyc_status": new_user.kyc_status
 		}
 	})
 
@@ -211,3 +245,34 @@ def get_custom_fields_by_category(category):
         return jsonify({'error': 'Category not found'})
 
     return jsonify(selected_category['fields'])
+
+
+
+# ################# Projects APIS ####################
+
+@user_bp.route('/projects', methods=['POST'])
+def create_project():
+    try:
+        data = request.json
+
+        new_project = Projects(
+            title=data['title'],
+            description=data['description'],
+            type=data['type'],
+            progress=data['progress'],
+            status=data['status'],
+            start_date=data['startDate'],
+            end_date=data['endDate'],
+            due_date=data['dueDate'],
+            team=data.get('team', []),  # Store team as JSON
+            tasks=data.get('tasks', [])  # Store tasks as JSON
+        )
+
+        db.session.add(new_project)
+        db.session.commit()
+
+        return jsonify({"message": "Project added successfully", "project_id": new_project.id}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
